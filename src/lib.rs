@@ -22,6 +22,9 @@ fn process_instruction(
 ) -> ProgramResult {
 
     match instruction_data.split_first() {
+        Some((OpenVault::DISCRIMINATOR, data)) => OpenVault::try_from((data, accounts))?.process(),
+        Some((SplitVault::DISCRIMINATOR, data)) => SplitVault::try_from((data, accounts))?.process(),
+        Some((CloseVault::DISCRIMINATOR, data)) => CloseVault::try_from((data, accounts))?.process(),
         _ => Err(ProgramError::InvalidInstructionData)
     }
 }
